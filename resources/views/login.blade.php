@@ -2,6 +2,7 @@
 
 @section('content')
     <h1>Bintang Rizqi Pasha Login Page</h1>
+    <i style="color:red">{{ session()->get('error') }}</i>
     <div class="form">
         <form method="POST" action="{{ route('login_action') }}">
             @csrf
