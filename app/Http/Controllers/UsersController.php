@@ -8,7 +8,6 @@ class UsersController extends Controller
 {
     public function login_form()
     {
-
-        echo 'LOGIN FORM';
+        return view('login');
     }
 }

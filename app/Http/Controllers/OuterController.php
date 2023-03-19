@@ -8,6 +8,6 @@ class OuterController extends Controller
 {
     public function index()
     {
-        echo "anjeng galak";
+        return view('home');
     }
 }
