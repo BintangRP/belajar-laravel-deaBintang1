@@ -17,7 +17,9 @@ class UsersFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'username' => 'bintangpasha',
+            'password' => bcrypt('123'),
+            'token' => '',
         ];
     }
 }
