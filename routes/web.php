@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OuterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome', [
-        'title' => 'Disini titlenya bro'
-    ]);
-});
+// Route::get('/', function () {
+//     return view('welcome', [
+//         'title' => 'Disini titlenya bro',
+//         'description' => 'Disini descnya ya bro'
+//     ]);
+// });
+
+Route::get('/', [OuterController::class, 'index']);
