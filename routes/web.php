@@ -15,8 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// index home page
 Route::get('/', [OuterController::class, 'index']);
 
+// users page and users validation
 Route::controller(UsersController::class)->group(function () {
-    Route::get('/login', 'login_form');
+    Route::get('/login', 'login_form')->name('login_form');
+    Route::post('/login', 'login_action')->name('login_action');
 });
