@@ -16,7 +16,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 // index home page
-Route::get('/', [OuterController::class, 'index']);
+Route::controller(OuterController::class)->group(function () {
+    Route::get('/', 'index')->name('home');
+    Route::get('/article/{id}', 'article_detail')->name('article_detail');
+});
 
 // users page and users validation
 Route::controller(UsersController::class)->group(function () {
