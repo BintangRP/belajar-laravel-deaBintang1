@@ -25,4 +25,5 @@ Route::controller(UsersController::class)->group(function () {
 
 
     Route::get('/dashboard', 'dashboard_index')->name('dashboard_index');
+    Route::post('/dashboard', 'dashboard_logout')->name('dashboard_logout');
 });

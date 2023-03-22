@@ -21,6 +21,7 @@
         <div class="">
             @yield('dashboard')
         </div>
+
         {{-- end of isi content disini --}}
         <footer>&#169; Deacourse X BintangRP Made With</footer>
     </div>

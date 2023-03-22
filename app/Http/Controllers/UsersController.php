@@ -16,11 +16,11 @@ class UsersController extends Controller
     }
     public function login_action(Request $request)
     {
-
         $users = Users::where('username', $request->username)->first();
         if ($users == null) {
             return redirect()->back()->with('error', 'Username atau Password salah');;
         }
+        $request->session()->put('username', $users->username);
 
         $db_password = $users->password;
         $hashed_password = Hash::check($request->password, $db_password);
@@ -30,7 +30,6 @@ class UsersController extends Controller
             $users->save(); //save token
             // ketika users logout maka di database tokennya hilang
             $request->session()->put('token', $users->token);
-
             return to_route('dashboard_index');
         } else {
             return redirect()->back()->with('error', 'Username atau Password salah');
@@ -40,10 +39,23 @@ class UsersController extends Controller
     public function dashboard_index(Request $request)
     {
         if (Session::has('token')) {
-            dd('ada token');
+            return view('Dashboard.index', [
+                'title' => 'Dashboard Admin',
+            ]);
         } else {
-            dd('tidak ada token');
+
+            return to_route('login_form')->with('error', 'Login terlebih dahulu');
         }
         return view('Dashboard.index');
+    }
+
+    public function dashboard_logout(Request $request)
+    {
+        $user = Users::where('username', $request->session()->get('username'))->first();
+        $user->token = NULL;
+        $user->save();
+        $request->session()->forget('token');
+
+        return to_route('login_form')->with('success', 'Logout Berhasil');
     }
 }
