@@ -16,8 +16,11 @@
 
     <hr>
 
-    <form action="{{ route('article_create') }}">
+    <form method="POST" action="{{ route('article_create') }}">
         @csrf
+        <input type="text" placeholder="judul" name="judul" required>
+        <input type="text" placeholder="deksripsi" name="description" required>
+        <input type="text" placeholder="tag" name="tag" required>
         <button type="submit">Tambah Article</button>
     </form>
 
@@ -39,9 +42,9 @@
                     <a href="/article/{{ $article->id }}/edit">Edit</a>
                     <form method="POST" action="{{ route('article_delete') }}">
                         @csrf
-                        <button type="submit" value="{{ $article->id }}">Hapus</button>
+                        <input type="hidden" name="id" value="{{ $article->id }}" />
+                        <button type="submit">Hapus</button>
                     </form>
-
                 </td>
             </tr>
         @endforeach

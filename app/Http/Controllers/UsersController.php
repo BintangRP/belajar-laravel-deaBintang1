@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Articles;
 use App\Models\Users;
+use Database\Factories\ArticlesFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -61,5 +62,71 @@ class UsersController extends Controller
         $request->session()->forget('token');
 
         return to_route('login_form')->with('success', 'Logout Berhasil');
+    }
+
+    public function article_create(Request $request)
+    {
+        $request->validate([
+            'judul' => ['required', 'max:255', 'min:10'],
+            'description' => 'required',
+            'tag' => 'nullable',
+        ]);
+
+        $created = Articles::create([
+            'title' => $request->judul,
+            'description' => $request->description,
+            'tag' => $request->tag,
+        ]);
+
+        if ($created) {
+            return redirect()->back()->with('success', 'Article berhasil ditambahkan');
+        } else {
+            return redirect()->back()->with('error', 'Article gagal ditambahkan');
+        }
+    }
+
+    public function article_edit(Request $request, $id)
+    {
+        $article = Articles::find($id);
+
+        return view('dashboard.article_edit', [
+            'title' => 'Edit Article',
+            'article' => $article,
+        ]);
+    }
+
+    public function article_update(Request $request)
+    {
+
+        $request->validate([
+            'judul' => 'required',
+            'deskripsi' => 'required',
+            'tag' => 'required',
+        ]);
+
+        // !TODO: FIX THIS
+        // !belum bisa mengambil id dari route
+        $id = $request->route('article_edit')->parameter('id');
+
+        dd($id);
+        $article = Articles::find($id);
+        $article->title = $request->judul;
+        $article->description = $request->deskripsi;
+        $article->tag = $request->tag;
+        $article->save();
+
+        if ($article) {
+            return view('dashboard')->with('success', 'Article berhasil diupdate');
+        } else {
+            return redirect()->back()->with('error', 'Article gagal diupdate');
+        }
+    }
+
+    public function article_delete(Request $request)
+    {
+
+        Articles::find($request->id)->delete();
+
+        return redirect()->back()->with('success', 'Article ' . $request->id . ' berhasil dihapus');
     }
 }

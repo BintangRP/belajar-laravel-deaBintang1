@@ -16,30 +16,4 @@ class ArticlesController extends Controller
     {
         //
     }
-
-    public function article_create()
-    {
-        return view('Dashboard.article_create', [
-            'title' => 'Create Article',
-        ]);
-    }
-
-    public function article_edit(Request $request, $id)
-    {
-        $article = Articles::find($id);
-
-        return view('Dashboard.article_edit', [
-            'title' => 'Edit Article',
-            'article' => $article,
-        ]);
-    }
-
-    public function article_delete($id)
-    {
-        $article = Articles::find($id);
-        $article->delete();
-        $article->save();
-
-        return redirect()->back()->with('success', 'Article' . $id . ' berhasil dihapus');
-    }
 }
