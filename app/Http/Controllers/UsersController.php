@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Articles;
 use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -39,9 +40,12 @@ class UsersController extends Controller
     public function dashboard_index(Request $request)
     {
         if (Session::has('token')) {
+            $articles = Articles::all();
+
             return view('Dashboard.index', [
                 'title' => 'Dashboard Admin',
-            ]);
+                'articles' => $articles,
+            ])->with('success', 'Login Berhasil');
         } else {
 
             return to_route('login_form')->with('error', 'Login terlebih dahulu');

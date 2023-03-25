@@ -17,69 +17,29 @@ class ArticlesController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function article_create()
     {
-        //
+        return view('Dashboard.article_create', [
+            'title' => 'Create Article',
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function article_edit(Request $request, $id)
     {
-        //
+        $article = Articles::find($id);
+
+        return view('Dashboard.article_edit', [
+            'title' => 'Edit Article',
+            'article' => $article,
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Articles  $articles
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Articles $articles)
+    public function article_delete($id)
     {
-        //
-    }
+        $article = Articles::find($id);
+        $article->delete();
+        $article->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Articles  $articles
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Articles $articles)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Articles  $articles
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Articles $articles)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Articles  $articles
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Articles $articles)
-    {
-        //
+        return redirect()->back()->with('success', 'Article' . $id . ' berhasil dihapus');
     }
 }
