@@ -99,26 +99,26 @@ class UsersController extends Controller
     {
 
         $request->validate([
-            'judul' => 'required',
+            'judul' => ['required', 'max:255', 'min:10'],
             'deskripsi' => 'required',
             'tag' => 'required',
         ]);
 
         // !TODO: FIX THIS
-        // !belum bisa mengambil id dari route
-        $id = $request->route('article_edit')->parameter('id');
 
-        dd($id);
-        $article = Articles::find($id);
+        $article = Articles::find($request->id);
         $article->title = $request->judul;
         $article->description = $request->deskripsi;
         $article->tag = $request->tag;
         $article->save();
 
         if ($article) {
-            return view('dashboard')->with('success', 'Article berhasil diupdate');
+            return view('Dashboard.index', [
+                'title' => 'Dashboard Admin',
+                'articles' => Articles::all(),
+            ])->with('success', 'Article berhasil diupdate');
         } else {
-            return redirect()->back()->with('error', 'Article gagal diupdate');
+            return view('Dashboard.article_edit')->with('error', 'Article gagal diupdate');
         }
     }
 

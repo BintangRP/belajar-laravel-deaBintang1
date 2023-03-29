@@ -1,7 +1,6 @@
 @extends('layout.isUser')
 
 @section('dashboard')
-    <i style="color:red">{{ session()->get('success') }}</i>
     <i style="color:red">{{ session()->get('error') }}</i>
     <form method="POST" action="{{ route('article_update') }}">
         @csrf
